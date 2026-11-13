@@ -59,8 +59,16 @@ def append_column(X, col):
     v = np.asarray([col]).T
     return np.hstack((x,v))
 
-# Step 6 - one_hot_encode (not yet solved)
-# TODO: implement
+# Step 6 - one_hot_encode
+def one_hot_encode(labels):
+    # TODO: Convert a 1-D array of categorical labels into a dense binary one-hot matrix.
+    hot = np.asarray(labels.copy())
+    n = len(hot)
+    unique_val = np.unique(hot)
+    c = len(unique_val)
+    omatrix = np.zeros((n,c))
+    omatrix[hot[:,None]==unique_val[None,:]] = 1.0
+    return omatrix
 
 # Step 7 - fit_standardizer (not yet solved)
 # TODO: implement
