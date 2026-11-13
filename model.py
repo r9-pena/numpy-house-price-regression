@@ -70,8 +70,14 @@ def one_hot_encode(labels):
     omatrix[hot[:,None]==unique_val[None,:]] = 1.0
     return omatrix
 
-# Step 7 - fit_standardizer (not yet solved)
-# TODO: implement
+# Step 7 - fit_standardizer
+def fit_standardizer(X):
+    # TODO: Compute per-column mean and std used to standardize features...
+    x=np.asarray(X.copy())
+    mean = np.mean(x,axis=0)
+    std = np.std(x,axis=0)
+    std[std==0] = 1.0
+    return mean,std
 
 # Step 8 - apply_standardizer (not yet solved)
 # TODO: implement
