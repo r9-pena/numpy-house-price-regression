@@ -52,8 +52,9 @@ def make_ratio_feature(numerator, denominator, eps=1e-8):
 def append_column(X, col):
     # TODO: Horizontally append one 1-D feature column onto a design matrix.
     x = np.asarray(X)
-    v = np.asarray([col]).T
-    return np.hstack((x,v))
+    c = np.asarray(col)
+    v = np.asarray(c).T
+    return np.column_stack([x,v])
 
 # Step 6 - one_hot_encode
 def one_hot_encode(labels):
