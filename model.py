@@ -160,8 +160,19 @@ def r_squared(y_true, y_pred):
     tot = np.sum((y_true-y_hat)**2)
     return (1.0-res/tot) if tot != 0 else 0
 
-# Step 18 - residual_summary (not yet solved)
-# TODO: implement
+# Step 18 - residual_summary
+def residual_summary(y_true, y_pred):
+    # TODO: Return a compact dict summarizing prediction residuals...
+    r = y_true - y_pred
+    r_mean = float(np.mean(r))
+    std = float(np.std(r-r_mean))
+    r_median = float(np.median(np.abs(r)))
+    dic = {
+        'mean':r_mean,
+        'std':std,
+        'median_abs':r_median
+    }
+    return dic
 
 # Step 19 - prepare_cleaned_features (not yet solved)
 # TODO: implement
