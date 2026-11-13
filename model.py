@@ -191,8 +191,16 @@ def prepare_cleaned_features(X, iqr_k=1.5):
     x = clip_columns(x, lower, upper)
     return x
 
-# Step 20 - assemble_feature_matrix (not yet solved)
-# TODO: implement
+# Step 20 - assemble_feature_matrix
+def assemble_feature_matrix(X_num, ratio_num_idx, ratio_den_idx, cat_labels=None):
+    # TODO: build an extended feature matrix by appending a derived ratio...
+    rat = make_ratio_feature(ratio_num_idx,ratio_den_idx)
+    x = append_column(X_num,rat)
+
+    # if cat_labels != None:
+    #     hot = one_hot_encode(cat_labels)
+    #     x = append_column(x,hot)
+    return x
 
 # Step 21 - make_train_val_test (not yet solved)
 # TODO: implement
