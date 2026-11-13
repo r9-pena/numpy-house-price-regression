@@ -53,8 +53,7 @@ def append_column(X, col):
     # TODO: Horizontally append one 1-D feature column onto a design matrix.
     x = np.asarray(X)
     c = np.asarray(col)
-    v = np.asarray(c).T
-    return np.column_stack([x,v])
+    return np.column_stack([x,c])
 
 # Step 6 - one_hot_encode
 def one_hot_encode(labels):
