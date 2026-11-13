@@ -118,7 +118,7 @@ def ols_fit(X, y):
     # TODO: return the ordinary-least-squares weight vector for a linear model.
     A = X.T@X
     b = X.T@y
-    theta=np.linalg.solve(A,b)
+    theta, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
     return theta
 
 # Step 14 - ols_predict
@@ -190,10 +190,10 @@ def prepare_cleaned_features(X, iqr_k=1.5):
 # Step 20 - assemble_feature_matrix
 def assemble_feature_matrix(X_num, ratio_num_idx, ratio_den_idx, cat_labels=None):
     # TODO: build an extended feature matrix by appending a derived ratio...
-    rat = make_ratio_feature(ratio_num_idx,ratio_den_idx)
+    rat = make_ratio_feature(X_num[:,ratio_num_idx],X_num[:,ratio_den_idx])
     x = append_column(X_num,rat)
 
-    if cat_labels != None:
+    if cat_labels is not None:
         hot = one_hot_encode(cat_labels)
         x = append_column(x,hot)
     return x
