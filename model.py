@@ -197,13 +197,23 @@ def assemble_feature_matrix(X_num, ratio_num_idx, ratio_den_idx, cat_labels=None
     rat = make_ratio_feature(ratio_num_idx,ratio_den_idx)
     x = append_column(X_num,rat)
 
-    # if cat_labels != None:
-    #     hot = one_hot_encode(cat_labels)
-    #     x = append_column(x,hot)
-    return x
+    if cat_labels != None:
+        hot = one_hot_encode(cat_labels)
+        x = append_column(x,hot)
+    return 0
 
-# Step 21 - make_train_val_test (not yet solved)
-# TODO: implement
+# Step 21 - make_train_val_test
+def make_train_val_test(X, y, train_ratio, val_ratio, seed):
+    # TODO: Shuffle and materialize train/validation/test matrices from X and y...
+    dic = {}
+    n_samples = X.shape[0]
+    idx = make_shuffled_indices(n_samples,seed)
+    train,val,test = partition_indices(idx, train_ratio,val_ratio) 
+    dic['X_train'],dic['y_train'] = subset_xy(X,y,train)
+    dic['X_val'],dic['y_val'] = subset_xy(X,y,val)
+    dic['X_test'],dic['y_test'] = subset_xy(X,y,test)
+
+    return dic
 
 # Step 22 - standardize_and_add_bias (not yet solved)
 # TODO: implement
