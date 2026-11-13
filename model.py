@@ -46,10 +46,6 @@ def clip_columns(X, lower, upper):
 # Step 4 - make_ratio_feature
 def make_ratio_feature(numerator, denominator, eps=1e-8):
     # TODO: Form a derived ratio feature from two 1-D arrays with safe division.
-    n_len = len(numerator)
-    d_len = len(denominator)
-    if n_len != d_len:
-        return None
     return (numerator/(denominator+eps))
 
 # Step 5 - append_column
@@ -200,7 +196,7 @@ def assemble_feature_matrix(X_num, ratio_num_idx, ratio_den_idx, cat_labels=None
     if cat_labels != None:
         hot = one_hot_encode(cat_labels)
         x = append_column(x,hot)
-    return 0
+    return x
 
 # Step 21 - make_train_val_test
 def make_train_val_test(X, y, train_ratio, val_ratio, seed):
@@ -236,6 +232,23 @@ def evaluate_predictions(y_true, y_pred):
     dic['residual_summary']=residual_summary(y_true,y_pred)
     return dic
 
-# Step 24 - house_price_pipeline (not yet solved)
-# TODO: implement
+# Step 24 - house_price_pipeline
+def house_price_pipeline(X, y, ratio_num_idx, ratio_den_idx, cat_labels=None, train_ratio=0.7, val_ratio=0.15, seed=42, iqr_k=1.5):
+    # TODO: Run full clean->featurize->split->standardize->OLS->evaluate pipeline...
+    dic={}
+    x_clean = prepare_cleaned_features(X,iqr_k)
+    x_ft = assemble_feature_matrix(x_clean,ratio_num_idx,ratio_den_idx,cat_labels)
+    splits = make_train_val_test(x_ft,y,train_ratio,val_ratio,seed)
+    std_split,_,_= standardize_and_add_bias(splits)
+    theta = ols_fit(std_split['X_train'],std_split['y_train'])
+    y_val = ols_predict(std_split['X_val'],theta)
+    y_test = ols_predict(std_split['X_test'],theta)
+
+    dic['val_metrics'] = evaluate_predictions(std_split['y_val'],y_val)
+    dic['test_metrics'] = evaluate_predictions(std_split['y_test'],y_test)
+    dic['theta']=theta
+    dic['y_test']=std_split['y_test']
+    dic['y_test_pred']=y_test
+
+    return dic
 
